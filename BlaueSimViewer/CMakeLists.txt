@@ -83,10 +83,11 @@ endif()
 
 install(
     TARGETS ${PROJECT_NAME}
+    RUNTIME_DEPENDENCY_SET BlaueDeps
 )
 
 install(
-    RUNTIME_DEPENDENCY_SET BlauDeps
+    RUNTIME_DEPENDENCY_SET BlaueDeps
     PRE_EXCLUDE_REGEXES
         [=[api-ms-]=]
         [=[ext-ms-]=]
