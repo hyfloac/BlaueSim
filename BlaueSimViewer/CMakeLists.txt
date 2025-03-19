@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.25)
 
 include(CheckCCompilerFlag)
 
@@ -28,8 +28,14 @@ target_include_directories(BlaueSim PUBLIC include)
 target_include_directories(BlaueSim PRIVATE src)
 
 find_package(glm REQUIRED)
+find_package(ICU REQUIRED)
+find_package(Vulkan REQUIRED)
 
-target_link_libraries(BlaueSim glm::glm)
+target_link_libraries(BlaueSim glm::glm icu::icu Vulkan::Vulkan SDL3::SDL3)
+
+if(Vulkan_MoltenVK_FOUND)
+    target_link_libraries(BlaueSim Vulkan::MoltenVK)
+endif()
 
 # Set C++20
 target_compile_features(BlaueSim PUBLIC cxx_std_20)
@@ -77,6 +83,9 @@ endif()
 
 install(
     TARGETS ${PROJECT_NAME}
+)
+
+install(
     RUNTIME_DEPENDENCY_SET BlauDeps
     PRE_EXCLUDE_REGEXES
         [=[api-ms-]=]

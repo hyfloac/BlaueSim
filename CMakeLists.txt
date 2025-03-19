@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.24)
-project(BlaueSim VERSION 1.1.0 LANGUAGES CXX)
+project(BlaueSim VERSION 0.0.1 LANGUAGES CXX C)
 
 include(CTest)
 
+add_subdirectory(vendor/SDL EXCLUDE_FROM_ALL)
 add_subdirectory(BlaueSimViewer)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
