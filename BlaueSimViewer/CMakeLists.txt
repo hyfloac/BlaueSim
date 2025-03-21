@@ -30,12 +30,17 @@ target_include_directories(BlaueSim PRIVATE src)
 find_package(glm REQUIRED)
 find_package(ICU REQUIRED)
 find_package(Vulkan REQUIRED)
+find_package(EASTL REQUIRED)
 
-target_link_libraries(BlaueSim glm::glm icu::icu Vulkan::Vulkan SDL3::SDL3)
+target_link_libraries(BlaueSim glm::glm icu::icu Vulkan::Vulkan SDL3::SDL3 EASTL::EASTL)
 
 if(Vulkan_MoltenVK_FOUND)
     target_link_libraries(BlaueSim Vulkan::MoltenVK)
 endif()
+
+# Reference EASTL as a shared library.
+# Otherwise we have to implement some rather painful new[] functions.
+target_compile_definitions(BlaueSim PRIVATE -DEASTL_DLL)
 
 # Set C++20
 target_compile_features(BlaueSim PUBLIC cxx_std_20)

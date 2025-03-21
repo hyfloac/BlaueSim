@@ -1,6 +1,7 @@
 [requires]
 glm/1.0.1
 icu/76.1
+eastl/3.21.12
 
 [generators]
 CMakeDeps
