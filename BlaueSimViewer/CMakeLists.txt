@@ -2,11 +2,12 @@ cmake_minimum_required(VERSION 3.25)
 
 include(CheckCCompilerFlag)
 
-file(GLOB SOURCES "src/*.cpp")
+file(GLOB_RECURSE SOURCES "src/*.cpp")
 file(GLOB_RECURSE HEADERS "include/*.hpp" "include/*.h" "include/*.inl")
 file(GLOB HEADERS_BASE "include/*.hpp" "include/*.inl")
+file(GLOB HEADERS_VULKAN "include/vulkan/*.hpp" "include/vulkan/*.inl")
 
-set(BLAU_SOURCE_FILES ${SOURCES} ${HEADERS_BASE})
+set(BLAU_SOURCE_FILES ${SOURCES} ${HEADERS_BASE} ${HEADERS_VULKAN})
 
 add_executable(BlaueSim ${BLAU_SOURCE_FILES})
 
@@ -84,6 +85,11 @@ if(CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
     if(HAS_DLL_INTERFACE_WARNING)
         target_compile_options(BlaueSim PRIVATE /wd4251)
     endif()
+endif()
+
+if(APPLE)
+    # Enable Metal for Vulkan on MacOS
+    target_compile_definitions(BlaueSim PRIVATE -DVK_USE_PLATFORM_METAL_EXT)
 endif()
 
 install(
